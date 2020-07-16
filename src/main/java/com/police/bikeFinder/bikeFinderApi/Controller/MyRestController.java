@@ -1,11 +1,9 @@
 package com.police.bikeFinder.bikeFinderApi.Controller;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
-import com.police.bikeFinder.bikeFinderApi.service.ServiceImpl;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class MyRestController {
@@ -22,7 +20,7 @@ public class MyRestController {
     }*/
 
     @PostMapping("/case/new")
-    public void getNewCase (@RequestBody Case newCase){
+    public void getNewCase (@Valid @RequestBody Case newCase){
 
     }
 

@@ -1,4 +1,4 @@
-package com.police.bikeFinder.bikeFinderApi.service;
+package com.police.bikeFinder.bikeFinderApi.service.impl;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Client;

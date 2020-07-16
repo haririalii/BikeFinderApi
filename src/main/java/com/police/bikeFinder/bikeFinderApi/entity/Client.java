@@ -1,5 +1,7 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
+import com.police.bikeFinder.bikeFinderApi.validation.NationCodeAnno;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -8,6 +10,7 @@ public class Client {
 //    @Id
     private int id;
     private String name;
+    @NationCodeAnno(message = "invalid NationCode")
     private String nationCode;
     private String phoneNumber;
 
