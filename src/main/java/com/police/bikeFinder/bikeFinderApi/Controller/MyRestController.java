@@ -1,27 +1,42 @@
 package com.police.bikeFinder.bikeFinderApi.Controller;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
+import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
+import com.police.bikeFinder.bikeFinderApi.repository.CaseRepository;
+import com.police.bikeFinder.bikeFinderApi.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Iterator;
+import java.util.List;
 
 @RestController
 public class MyRestController {
 
-    /*@GetMapping("/users")
+    @GetMapping("/users")
     public List getUsers (){
         return ServiceImpl.cases;
     }
 
+    @Autowired
+    CaseRepository caseRepository ;
     @PostMapping("/users")
-    public Case newCase (@RequestBody Case myCase){
+    public void newCase (@Valid @RequestBody Case myCase , Errors bindingResult){
         ServiceImpl.cases.add(myCase);
-        return myCase;
-    }*/
+
+        if (bindingResult.hasErrors())
+            throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
+//        return myCase;
+    }
 
     @PostMapping("/case/new")
-    public void getNewCase (@Valid @RequestBody Case newCase){
-
+    public void getNewCase (@Valid @RequestBody Case newCase, Errors bindingResult){
+        if (bindingResult.hasErrors())
+            throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
+        caseRepository.addCase(newCase);
     }
 
     @PostMapping("/case/conclusion")

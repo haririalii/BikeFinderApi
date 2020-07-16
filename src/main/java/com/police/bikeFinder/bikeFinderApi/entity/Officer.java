@@ -1,21 +1,34 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
-//@Entity
+@Entity
+@Table(name = "officer")
 public class Officer {
-//    @Id
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private String id;
+    @Size(min = 5)
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "is_available")
     private boolean isAvailable;
+
+    @Column(name = "last_mission")
     private long lastMission;
 
     public Officer(String name) {
         this.name = name;
         this.isAvailable=true;
         this.lastMission = new Date().getTime();
+    }
+
+    public Officer() {
     }
 
     public String getId() {

@@ -1,36 +1,23 @@
 package com.police.bikeFinder.bikeFinderApi.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
+import com.police.bikeFinder.bikeFinderApi.validation.Impl.NationCodeValidationImpl;
 
-public class NationCodeValidation implements ConstraintValidator<NationCodeAnno ,String > {
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+@Constraint(validatedBy = NationCodeValidationImpl.class)
+@Target({ElementType.METHOD,ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface NationCodeValidation {
+    public String message() default "Invalid NationCode";
 
-    @Override
-    public void initialize(NationCodeAnno constraintAnnotation) {
-//        String nationCode = constraintAnnotation
-    }
+    Class<?>[] groups() default {};
 
-    @Override
-    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        char[] c = s.toCharArray();
-        int sum = 0;
-        if (s.length() == 10) {
-            for (int i = 10; i > 0; i--) {
-                int j = Math.abs(10 - i);
-                int k = Integer.parseInt(s.substring(j, j + 1));
-                if (i != 1)
-                    sum += k * i;
-            }
-            int b = sum % 11;
-            if (b < 2) {
-                return Integer.parseInt(s.substring(9)) ==  b;
-            } else {
-                return Integer.parseInt(s.substring(9)) == (11 - b);
-            }
-        }
-        else return false;
+    Class<? extends Payload>[] payload() default {};
 
-    }
 }

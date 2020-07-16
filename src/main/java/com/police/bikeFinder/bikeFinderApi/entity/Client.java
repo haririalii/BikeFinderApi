@@ -1,23 +1,50 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
-import com.police.bikeFinder.bikeFinderApi.validation.NationCodeAnno;
+import com.police.bikeFinder.bikeFinderApi.validation.NationCodeValidation;
+import com.police.bikeFinder.bikeFinderApi.validation.PhoneValidation;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-//@Entity
+@Entity
+@Table(name = "client")
 public class Client {
-//    @Id
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+
+//    @NotNull
+    @Size(min=5 , message = "Name Should Be More Than 5 Character!")
+    @Column(name = "name")
     private String name;
-    @NationCodeAnno(message = "invalid NationCode")
+
+    @NationCodeValidation
+    @Column(name = "nation_code")
     private String nationCode;
+
+    @NotNull
+    @PhoneValidation
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToOne(mappedBy = "client")
+    private Case casee ;
 
     public Client(String name, String nationCode, String phoneNumber) {
         this.name = name;
         this.nationCode = nationCode;
         this.phoneNumber = phoneNumber;
+    }
+
+    public Case getCasee() {
+        return casee;
+    }
+
+    public void setCasee(Case casee) {
+        this.casee = casee;
     }
 
     public String getName() {
@@ -50,5 +77,8 @@ public class Client {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Client() {
     }
 }
