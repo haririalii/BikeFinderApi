@@ -31,12 +31,6 @@ public class BikeFinderApiApplication {
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactory (){
-//		SessionFactory factory = new Configuration()
-//				.configure()
-//				.addAnnotatedClass(Case.class)
-//				.addAnnotatedClass(Client.class)
-//				.addAnnotatedClass(Officer.class)
-//				.buildSessionFactory();
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(myDataSource());
 		sessionFactory.setPackagesToScan("com.police.bikeFinder.bikeFinderApi.entity");
@@ -44,7 +38,6 @@ public class BikeFinderApiApplication {
 		properties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
 		properties.setProperty("hibernate.show_sql","true");
 		sessionFactory.setHibernateProperties(properties);
-
 		return sessionFactory;
 	}
 

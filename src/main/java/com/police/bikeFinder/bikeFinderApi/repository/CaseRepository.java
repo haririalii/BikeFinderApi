@@ -5,7 +5,7 @@ import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import java.util.List;
 
 public interface CaseRepository {
-    public List<Case> listCustomers();
+    public List<Case> listCase(char condition);
     public int addCase(Case myCase);
     public int delCase(int id);
     public Case getCase(int id);

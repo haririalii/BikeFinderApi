@@ -1,4 +1,19 @@
 package com.police.bikeFinder.bikeFinderApi.service;
 
+import com.police.bikeFinder.bikeFinderApi.entity.Case;
+import com.police.bikeFinder.bikeFinderApi.entity.Client;
+
+import java.util.List;
+
 public interface Service {
+    public List<Case> getCaseList (char condition);
+    public int addCase (Case newCase);
+    public int deleteCase (int id);
+    public Case getCase (int id);
+    public int updateCase(Case myCase);
+    public List<Client> getClientList();
+    public int addClient(Client myCase);
+    public int delClient(int id);
+    public Client getClient(int id);
+    public int updateClient(Client myCase);
 }

@@ -7,6 +7,7 @@ import org.apache.catalina.core.ApplicationContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,36 +20,28 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
     SessionFactory factory;
 
     @Override
-    public List<Case> listCustomers() {
-        return null;
+    public List<Case> listCase(char condition) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("from Case") ;
+        if(condition == 'a'){
+            query = session.createQuery("from Case ");
+        }else if(condition == 't'){
+            query = session.createQuery("from Case where isAlive = 1");
+        }else if (condition == 'f') {
+            query = session.createQuery("from Case where isAlive = 0");
+        }
+        session.close();
+
+        return query.list();
+
     }
 
     @Override
-    @Transactional
     public int addCase(Case myCase) {
 
         Session session = factory.getCurrentSession();
-
-//        try {
-//
-//            // start a transaction
-//            session.beginTransaction();
-            session.save(myCase);
-
-
-//            // commit transaction
-//            session.getTransaction().commit();
-//
-//        }
-//        catch (Exception exc) {
-//            exc.printStackTrace();
-//        }
-//        finally {
-//            // handle connection leak issue
-//            session.close();
-//
-//            factory.close();
-//        }
+        session.save(myCase);
+        session.close();
         return 0;
     }
 
@@ -59,11 +52,23 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
 
     @Override
     public Case getCase(int id) {
-        return null;
+        Session session = factory.getCurrentSession();
+        return session.get(Case.class,id);
+
     }
 
     @Override
     public int updateCase(Case myCase) {
+        Session session = factory.getCurrentSession();
+        try {session.beginTransaction();
+            session.update(myCase);
+            System.out.println(myCase.getId() + "  " + myCase.getEndDate());
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
         return 0;
     }
 }

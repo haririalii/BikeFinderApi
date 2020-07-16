@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "`case`")
+@Table(name = "`case_table`")
 public class Case {
 
     @Id
@@ -40,6 +40,8 @@ public class Case {
 
 
     public Case() {
+        setStartDate(0);
+        setAlive(true);
     }
 
     public Case(String description, Client client , Officer officer) {

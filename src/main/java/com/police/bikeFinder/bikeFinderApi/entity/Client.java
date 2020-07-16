@@ -30,8 +30,8 @@ public class Client {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "client")
-    private Case casee ;
+//    @OneToOne(mappedBy = "client")
+//    private Case casee ;
 
     public Client(String name, String nationCode, String phoneNumber) {
         this.name = name;
@@ -39,13 +39,13 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public Case getCasee() {
-        return casee;
-    }
-
-    public void setCasee(Case casee) {
-        this.casee = casee;
-    }
+//    public Case getCasee() {
+//        return casee;
+//    }
+//
+//    public void setCasee(Case casee) {
+//        this.casee = casee;
+//    }
 
     public String getName() {
         return name;
