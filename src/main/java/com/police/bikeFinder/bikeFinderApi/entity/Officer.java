@@ -51,7 +51,7 @@ public class Officer {
     public Officer() {
 
     }
-
+    @ApiModelProperty(hidden = true)
     public int getId() {
         return id;
     }
@@ -69,6 +69,7 @@ public class Officer {
         this.name = name;
     }
 
+    @ApiModelProperty(hidden = true)
     public boolean isAvailable() {
         return isAvailable;
     }
@@ -78,6 +79,7 @@ public class Officer {
         isAvailable = available;
     }
 
+    @ApiModelProperty(hidden = true)
     public long getLastMission() {
         return lastMission;
     }
@@ -87,10 +89,11 @@ public class Officer {
         this.lastMission = System.currentTimeMillis();
     }
 
+    @JsonIgnore
     public List<Case> MyCases() {
         return myCases;
     }
-
+    @JsonIgnore
     public void setMyCase(List<Case> myCases) {
         this.myCases = myCases;
     }

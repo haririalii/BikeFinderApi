@@ -19,13 +19,13 @@ public interface Service {
     public int updateClient(Client myCase);
     public Client checkClientAvailable (Client client);
 
-    public List<Officer> getOfficerList();
+    public List<Officer> getOfficerList(char condition);
     public int addOfficer(Officer myOfficer);
     public int delOfficer(int id);
     public Officer getOfficer(int id);
     public int updateOfficer(Officer myOfficer);
     public Officer getBestOfficer ();
     public List getOfficerJobs(int id);
-    public void fillCase (Case myCase);
+    public Case fillCase (Case myCase);
     public void checkUnStartCases();
 }

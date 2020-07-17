@@ -23,8 +23,13 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Case") ;
 
+        if(condition == 't') {
+            query = session.createQuery("from Case where isAlive = true");
+            return query.list();
+        }else if(condition == 'f'){
+            return session.createQuery("from Case where isAlive = false").list();
+        }
         return query.list();
-
     }
 
     @Override
@@ -85,7 +90,7 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
     private Service services;
 
     @Override
-    public void fillCase(Case myCase) {
+    public Case fillCase(Case myCase) {
         Client cc = services.checkClientAvailable(myCase.getClient());
         if (cc != null )
             myCase.setClient(cc);
@@ -102,6 +107,7 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
         addCase(myCase);
         officer.setAvailable(false);
         services.updateOfficer(officer);
+        return myCase;
     }
 
     @Override

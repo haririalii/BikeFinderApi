@@ -90,8 +90,8 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
 
     //////////////////////////////////////////////////////
     @Override
-    public List<Officer> getOfficerList() {
-        return officerRepository.getOfficerList();
+    public List<Officer> getOfficerList(char condition) {
+        return officerRepository.getOfficerList(condition);
     }
 
     @Override
@@ -128,8 +128,8 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
     }
 
     @Override
-    public void fillCase(Case myCase) {
-        caseRepository.fillCase(myCase);
+    public Case fillCase(Case myCase) {
+        return caseRepository.fillCase(myCase);
     }
 
     @Override

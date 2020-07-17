@@ -17,9 +17,15 @@ public class OfficerRepository implements com.police.bikeFinder.bikeFinderApi.re
     SessionFactory factory;
 
     @Override
-    public List<Officer> getOfficerList() {
+    public List<Officer> getOfficerList(char condition) {
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Officer") ;
+        if(condition == 't') {
+            query = session.createQuery("from Officer where isAvailable = true");
+            return query.list();
+        }else if(condition == 'f'){
+            return session.createQuery("from Officer where isAvailable = false").list();
+        }
         return query.list();
     }
 

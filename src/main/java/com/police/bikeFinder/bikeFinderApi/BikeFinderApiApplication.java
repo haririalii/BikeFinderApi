@@ -35,9 +35,9 @@ public class BikeFinderApiApplication {
 		ComboPooledDataSource cpds = new ComboPooledDataSource();
 		try {
 			cpds.setDriverClass("com.mysql.cj.jdbc.Driver");
-			cpds.setJdbcUrl("jdbc:mysql://localhost:3306/bike_finder_api?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
-			cpds.setUser("meshkan");
-			cpds.setPassword("meshkan");
+			cpds.setJdbcUrl("jdbc:mysql://localhost:3306/your_DB_location");
+			cpds.setUser("username");
+			cpds.setPassword("password");
 			cpds.setInitialPoolSize(5);
 			cpds.setMinPoolSize(5);
 			cpds.setMaxPoolSize(20);
