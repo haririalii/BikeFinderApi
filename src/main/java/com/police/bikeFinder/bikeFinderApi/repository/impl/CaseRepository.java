@@ -23,13 +23,13 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
     public List<Case> listCase(char condition) {
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Case") ;
-        if(condition == 'a'){
+       /* if(condition == 'a'){
             query = session.createQuery("from Case ");
         }else if(condition == 't'){
             query = session.createQuery("from Case where isAlive = 1");
         }else if (condition == 'f') {
             query = session.createQuery("from Case where isAlive = 0");
-        }
+        }*/
 //        session.close();
 
         return query.list();
@@ -41,7 +41,7 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
 
         Session session = factory.getCurrentSession();
         session.save(myCase);
-        session.close();
+//        session.close();
         return 0;
     }
 

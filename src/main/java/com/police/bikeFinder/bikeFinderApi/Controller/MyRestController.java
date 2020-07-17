@@ -2,6 +2,7 @@ package com.police.bikeFinder.bikeFinderApi.Controller;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Client;
+import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import com.police.bikeFinder.bikeFinderApi.repository.CaseRepository;
 import com.police.bikeFinder.bikeFinderApi.service.Service;
@@ -41,13 +42,21 @@ public class MyRestController {
     public void getNewCase (@Valid @RequestBody Case newCase, Errors bindingResult){
         if (bindingResult.hasErrors())
             throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
-//        newCase.setStartDate(0);
+
         Client cc = services.checkClientAvailable(newCase.client);
         if (cc != null)
             newCase.client = cc;
+        Officer officer;
+        try {
+            officer = services.getBestOfficer();
+        }catch (Exception e){
+            throw new InvalidInputException("No officer Available!!","wait till officers get available , try again later!");
 
+        }
+        newCase.officer = officer;
         services.addCase(newCase);
-        System.out.println(newCase.getStartDate());
+        officer.setAvailable(false);
+        services.updateOfficer(officer);
     }
 
     @PostMapping("/case/conclusion")
@@ -55,7 +64,11 @@ public class MyRestController {
         Case myCase = services.getCase(id);
         myCase.setAlive(false);
         myCase.setEndDate(System.currentTimeMillis());
+        myCase.officer.setLastMission(System.currentTimeMillis());
+        myCase.officer.setAvailable(true);
+
         services.updateCase(myCase);
+//        services.updateOfficer(myCase.officer);
 
     }
 
@@ -77,7 +90,7 @@ public class MyRestController {
     @GetMapping("/officer")
     public List getOfficers (){
 
-        return null;
+        return services.getOfficerList();
     }
 
 

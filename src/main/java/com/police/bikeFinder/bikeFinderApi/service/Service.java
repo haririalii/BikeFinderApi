@@ -2,6 +2,7 @@ package com.police.bikeFinder.bikeFinderApi.service;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Client;
+import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface Service {
     public Client getClient(int id);
     public int updateClient(Client myCase);
     public Client checkClientAvailable (Client client);
+
+    public List<Officer> getOfficerList();
+    public int addOfficer(Officer myOfficer);
+    public int delOfficer(int id);
+    public Officer getOfficer(int id);
+    public int updateOfficer(Officer myOfficer);
+    public Officer getBestOfficer ();
 }

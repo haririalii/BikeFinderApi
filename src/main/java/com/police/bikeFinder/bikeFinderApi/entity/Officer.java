@@ -1,8 +1,12 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "officer")
@@ -21,6 +25,10 @@ public class Officer {
 
     @Column(name = "last_mission")
     private long lastMission;
+
+//    @JsonIgnore
+    @OneToMany( mappedBy = "officer")
+    private List<Case> myCases;
 
     public Officer(String name) {
         this.name = name;
@@ -61,5 +69,13 @@ public class Officer {
 
     public void setLastMission(long lastMission) {
         this.lastMission = lastMission;
+    }
+
+    public List<Case> MyCases() {
+        return myCases;
+    }
+
+    public void setMyCase(List<Case> myCases) {
+        this.myCases = myCases;
     }
 }

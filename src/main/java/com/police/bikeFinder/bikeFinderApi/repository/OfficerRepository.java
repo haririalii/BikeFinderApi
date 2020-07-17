@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface OfficerRepository {
     public List<Officer> getOfficerList();
-    public int addOfficer(Officer myCase);
+    public int addOfficer(Officer myOfficer);
     public int delOfficer(int id);
     public Officer getOfficer(int id);
-    public int updateOfficer(Officer myCase);
+    public int updateOfficer(Officer myOfficer);
+    public Officer getBestOfficer ();
 }

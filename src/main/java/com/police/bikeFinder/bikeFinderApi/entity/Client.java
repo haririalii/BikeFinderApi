@@ -1,11 +1,13 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.police.bikeFinder.bikeFinderApi.validation.NationCodeValidation;
 import com.police.bikeFinder.bikeFinderApi.validation.PhoneValidation;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -13,11 +15,11 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-//    @NotNull
-    @Size(min=5 , message = "Name Should Be More Than 5 Character!")
+    //    @NotNull
+    @Size(min = 5, message = "Name Should Be More Than 5 Character!")
     @Column(name = "name")
     private String name;
 
@@ -29,7 +31,9 @@ public class Client {
     @PhoneValidation
     @Column(name = "phone_number")
     private String phoneNumber;
-
+//    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    private List<Case> casesList;
 //    @OneToOne(mappedBy = "client")
 //    private Case casee ;
 
@@ -80,5 +84,13 @@ public class Client {
     }
 
     public Client() {
+    }
+
+    public List<Case> myCases() {
+        return casesList;
+    }
+
+    public void setCasesList(List<Case> casesList) {
+        this.casesList = casesList;
     }
 }

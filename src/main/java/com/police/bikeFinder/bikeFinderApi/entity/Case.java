@@ -29,12 +29,12 @@ public class Case {
     private long endDate;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "officer_id")
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "`officer_id`")
     public Officer officer;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "`client_id`")
     public Client client;
 

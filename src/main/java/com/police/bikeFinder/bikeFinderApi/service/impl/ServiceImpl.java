@@ -2,7 +2,9 @@ package com.police.bikeFinder.bikeFinderApi.service.impl;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Client;
+import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 import com.police.bikeFinder.bikeFinderApi.repository.ClientRepository;
+import com.police.bikeFinder.bikeFinderApi.repository.OfficerRepository;
 import com.police.bikeFinder.bikeFinderApi.repository.impl.CaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
 
     @Autowired
     ClientRepository clientRepository;
+
+    @Autowired
+    OfficerRepository officerRepository;
 
     @Override
     @Transactional
@@ -79,5 +84,38 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
     public Client checkClientAvailable(Client client) {
         return clientRepository.checkClientAvailable(client);
 
+    }
+
+
+    //////////////////////////////////////////////////////
+    @Override
+    public List<Officer> getOfficerList() {
+        return officerRepository.getOfficerList();
+    }
+
+    @Override
+    public int addOfficer(Officer myOfficer) {
+        return 0;
+    }
+
+    @Override
+    public int delOfficer(int id) {
+        return 0;
+    }
+
+    @Override
+    public Officer getOfficer(int id) {
+        return null;
+    }
+
+    @Override
+    public int updateOfficer(Officer myOfficer) {
+        officerRepository.updateOfficer(myOfficer);
+        return 0;
+    }
+
+    @Override
+    public Officer getBestOfficer() {
+        return officerRepository.getBestOfficer();
     }
 }
