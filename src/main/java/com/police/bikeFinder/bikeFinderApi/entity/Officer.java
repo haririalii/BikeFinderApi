@@ -38,7 +38,7 @@ public class Officer {
     private long lastMission;
 
     @ApiModelProperty(hidden =  true,accessMode = ApiModelProperty.AccessMode.READ_ONLY , notes = "Officer Cases")
-    @OneToMany( mappedBy = "officer")
+    @OneToMany( mappedBy = "officer" )
     @JsonIgnore
     private List<Case> myCases;
 

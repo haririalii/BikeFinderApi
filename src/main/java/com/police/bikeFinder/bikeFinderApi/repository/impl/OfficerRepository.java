@@ -46,8 +46,9 @@ public class OfficerRepository implements com.police.bikeFinder.bikeFinderApi.re
             throw new InvalidInputException("Incorrect ID"," no officer with this ID !");
         }
         Query query = session.createQuery("update Case c set c.officer = null where c.officer = :oid");
-            query.setParameter("oid",officer);
+        query.setParameter("oid",officer);
         query.executeUpdate();
+
         session.delete(officer);
         session.getTransaction().commit();
         }catch (Exception e){
@@ -86,8 +87,14 @@ public class OfficerRepository implements com.police.bikeFinder.bikeFinderApi.re
         query = session.createQuery("from Officer where lastMission = :lms");
         query.setParameter("lms",time);
         Officer officer = (Officer) query.list().get(0);
-//        officer.setAvailable(false);
 
         return officer;
+    }
+
+    @Override
+    public List getOfficerJobs(int id) {
+        Officer officer = getOfficer(id);
+        List ee = officer.MyCases();
+        return officer.MyCases();
     }
 }

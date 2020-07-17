@@ -19,7 +19,6 @@ public class ClientRepository implements com.police.bikeFinder.bikeFinderApi.rep
     public List<Client> listClient() {
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Client ") ;
-//        session.close();
         return query.list();
     }
 

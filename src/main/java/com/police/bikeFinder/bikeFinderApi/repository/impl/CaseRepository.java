@@ -1,12 +1,9 @@
 package com.police.bikeFinder.bikeFinderApi.repository.impl;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
-import com.police.bikeFinder.bikeFinderApi.entity.Client;
-import com.police.bikeFinder.bikeFinderApi.entity.Officer;
-import org.apache.catalina.core.ApplicationContext;
+import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,14 +20,6 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
     public List<Case> listCase(char condition) {
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Case") ;
-       /* if(condition == 'a'){
-            query = session.createQuery("from Case ");
-        }else if(condition == 't'){
-            query = session.createQuery("from Case where isAlive = 1");
-        }else if (condition == 'f') {
-            query = session.createQuery("from Case where isAlive = 0");
-        }*/
-//        session.close();
 
         return query.list();
 
@@ -43,12 +32,27 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
         myCase.setStartDate(0);
         myCase.setAlive(true);
         session.save(myCase);
-//        session.close();
         return 0;
     }
 
     @Override
     public int delCase(int id) {
+        Session session = factory.getCurrentSession();
+        try{
+            session.beginTransaction();
+            Case aCase =null;
+            try {
+                aCase = getCase(id);
+            }catch (Exception e){
+                throw new InvalidInputException("Incorrect ID"," no Case with this ID !");
+            }
+            session.delete(aCase);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            throw new InvalidInputException("cant Delete","invalid id");
+        }finally {
+            session.close();
+        }
         return 0;
     }
 

@@ -25,4 +25,5 @@ public interface Service {
     public Officer getOfficer(int id);
     public int updateOfficer(Officer myOfficer);
     public Officer getBestOfficer ();
+    public List getOfficerJobs(int id);
 }

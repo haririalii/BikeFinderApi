@@ -5,6 +5,7 @@ import com.police.bikeFinder.bikeFinderApi.entity.Client;
 import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import com.police.bikeFinder.bikeFinderApi.service.Service;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class MyRestController {
     @Autowired
     private Service services ;
 
-    @PostMapping("/case/new")
+    @PostMapping("/case/filing")
     public void getNewCase (@Valid @RequestBody Case newCase,@ApiIgnore Errors bindingResult){
         if (bindingResult.hasErrors())
             throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
@@ -32,7 +33,6 @@ public class MyRestController {
             officer = services.getBestOfficer();
         }catch (Exception e){
             throw new InvalidInputException("No officer Available!!","wait till officers get available , try again later!");
-
         }
         newCase.setOfficer(officer);
         services.addCase(newCase);
@@ -41,7 +41,7 @@ public class MyRestController {
     }
 
     @PostMapping("/case/conclusion")
-    public void endCase (@RequestHeader int id){
+    public void endCase (@ApiParam(value = "You can Enter Case ID for Close it", example = "1") @RequestHeader int id){
         Case myCase = services.getCase(id);
         if (!myCase.isAlive()) {
             throw new InvalidInputException("invalid ID "," user ID incorrect or this case have already closed");
@@ -54,8 +54,10 @@ public class MyRestController {
         services.updateCase(myCase);
     }
 
+
+
     @GetMapping("/case")
-    public List getOpenCase(@RequestParam String condition){
+    public List getOpenCase(@ApiParam(value = "you can use:[ alive , end , all ] for this parameter", example = "all") @RequestParam(defaultValue = "all") String condition){
         if(condition.equals("end"))
             return services.getCaseList('f');
         else if (condition.equals("alive")){
@@ -82,10 +84,15 @@ public class MyRestController {
     }
 
     @DeleteMapping("/officer")
-    public void delOfficers (@RequestHeader int id){
+    public void delOfficers (@ApiParam(value = "You can Enter Officer ID for Delete it", example = "1")@RequestHeader int id){
         services.delOfficer(id);
     }
 
+    @GetMapping("/officer/cases")
+    public List getOfficersCases (@ApiParam(value = "You can Enter Officer ID for Check his Cases", example = "1")@RequestHeader int id){
+
+        return services.getOfficerJobs(id);
+    }
 
 
 }

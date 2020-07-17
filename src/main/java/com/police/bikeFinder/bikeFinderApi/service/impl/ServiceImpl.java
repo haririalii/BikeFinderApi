@@ -39,6 +39,7 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
 
     @Override
     public int deleteCase(int id) {
+        caseRepository.delCase(id);
         return 0;
     }
 
@@ -107,7 +108,7 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
 
     @Override
     public Officer getOfficer(int id) {
-        return null;
+        return officerRepository.getOfficer(id);
     }
 
     @Override
@@ -119,5 +120,10 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
     @Override
     public Officer getBestOfficer() {
         return officerRepository.getBestOfficer();
+    }
+
+    @Override
+    public List getOfficerJobs(int id) {
+        return officerRepository.getOfficerJobs(id);
     }
 }
