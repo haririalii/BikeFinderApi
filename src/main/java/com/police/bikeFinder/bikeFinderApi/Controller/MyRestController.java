@@ -4,38 +4,18 @@ import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Client;
 import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
-import com.police.bikeFinder.bikeFinderApi.repository.CaseRepository;
 import com.police.bikeFinder.bikeFinderApi.service.Service;
-import com.police.bikeFinder.bikeFinderApi.service.impl.ServiceImpl;
-import io.swagger.annotations.ApiModelProperty;
-import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
 public class MyRestController {
 
-   /* @GetMapping("/users")
-    public List getUsers (){
-        return null;
-    }
-    @PostMapping("/users")
-    public void newCase (@Valid @RequestBody Case myCase , Errors bindingResult){
-//        ServiceImpl.cases.add(myCase);
-
-        if (bindingResult.hasErrors())
-            throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
-//        return myCase;
-    }*/
     @Autowired
     private Service services ;
 
@@ -44,9 +24,9 @@ public class MyRestController {
         if (bindingResult.hasErrors())
             throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
 
-        Client cc = services.checkClientAvailable(newCase.client);
+        Client cc = services.checkClientAvailable(newCase.getClient());
         if (cc != null)
-            newCase.client = cc;
+            newCase.setClient(cc);
         Officer officer;
         try {
             officer = services.getBestOfficer();
@@ -54,7 +34,7 @@ public class MyRestController {
             throw new InvalidInputException("No officer Available!!","wait till officers get available , try again later!");
 
         }
-        newCase.officer = officer;
+        newCase.setOfficer(officer);
         services.addCase(newCase);
         officer.setAvailable(false);
         services.updateOfficer(officer);
@@ -63,14 +43,15 @@ public class MyRestController {
     @PostMapping("/case/conclusion")
     public void endCase (@RequestHeader int id){
         Case myCase = services.getCase(id);
+        if (!myCase.isAlive()) {
+            throw new InvalidInputException("invalid ID "," user ID incorrect or this case have already closed");
+        }
         myCase.setAlive(false);
         myCase.setEndDate(System.currentTimeMillis());
-        myCase.officer.setLastMission(System.currentTimeMillis());
-        myCase.officer.setAvailable(true);
+        myCase.getOfficer().setLastMission(0);
+        myCase.getOfficer().setAvailable(true);
 
         services.updateCase(myCase);
-//        services.updateOfficer(myCase.officer);
-
     }
 
     @GetMapping("/case")
@@ -92,6 +73,17 @@ public class MyRestController {
     public List getOfficers (){
 
         return services.getOfficerList();
+    }
+
+    @PostMapping("/officer")
+    public void addOfficers (@RequestBody Officer officer){
+        services.addOfficer(officer);
+
+    }
+
+    @DeleteMapping("/officer")
+    public void delOfficers (@RequestHeader int id){
+        services.delOfficer(id);
     }
 
 

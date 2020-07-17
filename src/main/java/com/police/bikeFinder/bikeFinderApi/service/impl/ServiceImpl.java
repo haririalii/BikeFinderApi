@@ -95,11 +95,13 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
 
     @Override
     public int addOfficer(Officer myOfficer) {
+        officerRepository.addOfficer(myOfficer);
         return 0;
     }
 
     @Override
     public int delOfficer(int id) {
+        officerRepository.delOfficer(id);
         return 0;
     }
 

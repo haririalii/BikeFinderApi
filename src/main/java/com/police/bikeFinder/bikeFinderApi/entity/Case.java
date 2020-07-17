@@ -1,14 +1,11 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -23,10 +20,9 @@ public class Case {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int id;
 
-//    @NotNull
     @Size(min=5)
     @Column(name = "description")
-    @ApiModelProperty(notes = "Case Description")
+    @ApiModelProperty(notes = "Case Description , it should be more then 30 character")
     private String description;
 
     @Column(name = "isAlive")
@@ -45,24 +41,20 @@ public class Case {
     private long endDate;
 
     @Valid
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "`officer_id`")
     @ApiModelProperty(hidden = true)
-
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    public Officer officer;
+    private Officer officer;
 
     @Valid
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "`client_id`")
     @ApiModelProperty(notes = "Client info")
-
-    public Client client;
-
+    private Client client;
 
     public Case() {
-        setStartDate(0);
-        setAlive(true);
+
     }
 
     public Case(String description, Client client , Officer officer) {
@@ -72,6 +64,7 @@ public class Case {
         this.client = client;
         this.officer = officer;
     }
+
     @ApiModelProperty(hidden = true)
     public int getId() {
         return id;
@@ -89,26 +82,33 @@ public class Case {
     public void setDescription(String description) {
         this.description = description;
     }
+
     @ApiModelProperty(hidden = true)
     public boolean isAlive() {
         return isAlive;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
+
     @ApiModelProperty(hidden = true)
     public long getStartDate() {
         return startDate;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setStartDate(long startDate) {
-//        if (this.startDate <= 0
+        if (this.startDate == 0)
             this.startDate = System.currentTimeMillis();
-    }@ApiModelProperty(hidden = true)
+    }
+
+    @ApiModelProperty(hidden = true)
     public long getEndDate() {
         return endDate;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setEndDate(long endDate) {
         this.endDate = endDate;
@@ -121,10 +121,12 @@ public class Case {
     public void setClient(Client client) {
         this.client = client;
     }
+
     @ApiModelProperty(hidden = true)
     public Officer getOfficer() {
         return officer;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setOfficer(Officer officer) {
         this.officer = officer;

@@ -40,6 +40,8 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
     public int addCase(Case myCase) {
 
         Session session = factory.getCurrentSession();
+        myCase.setStartDate(0);
+        myCase.setAlive(true);
         session.save(myCase);
 //        session.close();
         return 0;

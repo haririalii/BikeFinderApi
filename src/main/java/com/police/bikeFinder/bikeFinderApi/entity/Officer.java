@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -21,11 +20,11 @@ public class Officer {
     @Column(name="id")
     @ApiModelProperty(hidden = true,accessMode = ApiModelProperty.AccessMode.READ_ONLY,notes = "Client ID")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String id;
+    private int id;
 
     @Size(min = 5)
     @Column(name = "name")
-    @ApiModelProperty(notes = "Officer Name")
+    @ApiModelProperty(notes = "Officer Name , it should be more than 5 Character!")
     private String name;
 
     @Column(name = "is_available")
@@ -40,6 +39,7 @@ public class Officer {
 
     @ApiModelProperty(hidden =  true,accessMode = ApiModelProperty.AccessMode.READ_ONLY , notes = "Officer Cases")
     @OneToMany( mappedBy = "officer")
+    @JsonIgnore
     private List<Case> myCases;
 
     public Officer(String name) {
@@ -49,13 +49,15 @@ public class Officer {
     }
 
     public Officer() {
+
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -70,6 +72,7 @@ public class Officer {
     public boolean isAvailable() {
         return isAvailable;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setAvailable(boolean available) {
         isAvailable = available;
@@ -78,9 +81,10 @@ public class Officer {
     public long getLastMission() {
         return lastMission;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setLastMission(long lastMission) {
-        this.lastMission = lastMission;
+        this.lastMission = System.currentTimeMillis();
     }
 
     public List<Case> MyCases() {

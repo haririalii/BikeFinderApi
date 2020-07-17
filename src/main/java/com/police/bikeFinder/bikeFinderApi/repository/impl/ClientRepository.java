@@ -25,6 +25,8 @@ public class ClientRepository implements com.police.bikeFinder.bikeFinderApi.rep
 
     @Override
     public int addClient(Client myCase) {
+        Session session = factory.getCurrentSession();
+        session.save(myCase);
         return 0;
     }
 
@@ -56,8 +58,9 @@ public class ClientRepository implements com.police.bikeFinder.bikeFinderApi.rep
             Client client1 = (Client) query.list().get(0);
             if (client1 != null)
                 return client1;
+
         }catch (Exception e) {
-            return null;
+            return client;
         }
         return null;
     }

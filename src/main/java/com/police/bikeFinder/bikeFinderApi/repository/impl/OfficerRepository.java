@@ -2,6 +2,7 @@ package com.police.bikeFinder.bikeFinderApi.repository.impl;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Officer;
+import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -19,24 +20,48 @@ public class OfficerRepository implements com.police.bikeFinder.bikeFinderApi.re
     public List<Officer> getOfficerList() {
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Officer") ;
-
-
         return query.list();
     }
 
     @Override
     public int addOfficer(Officer myCase) {
+        Session session = factory.getCurrentSession();
+
+        myCase.setLastMission(0);
+        myCase.setAvailable(true);
+
+        session.save(myCase);
         return 0;
     }
 
     @Override
     public int delOfficer(int id) {
+        Session session = factory.getCurrentSession();
+        try{
+        session.beginTransaction();
+        Officer officer =null;
+        try {
+             officer = getOfficer(id);
+        }catch (Exception e){
+            throw new InvalidInputException("Incorrect ID"," no officer with this ID !");
+        }
+        Query query = session.createQuery("update Case c set c.officer = null where c.officer = :oid");
+            query.setParameter("oid",officer);
+        query.executeUpdate();
+        session.delete(officer);
+        session.getTransaction().commit();
+        }catch (Exception e){
+            throw new InvalidInputException("cant Delete","invalid id");
+        }finally {
+            session.close();
+        }
         return 0;
     }
 
     @Override
     public Officer getOfficer(int id) {
-        return null;
+        Session session = factory.getCurrentSession();
+        return session.get(Officer.class, id);
     }
 
     @Override

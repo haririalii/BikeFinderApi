@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "client")
-@ApiModel(description = "client INfo")
+@ApiModel(description = "Client Info")
 public class Client {
 
     @Id
@@ -24,18 +24,17 @@ public class Client {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int id;
 
-    //    @NotNull
     @Size(min = 5, message = "Name Should Be More Than 5 Character!")
     @Column(name = "name")
-    @ApiModelProperty(notes = "Client Name")
+    @ApiModelProperty(notes = "Client Name , it should be more than 5 character")
     private String name;
 
+    @NotNull
     @NationCodeValidation
     @Column(name = "nation_code")
     @ApiModelProperty(notes = "Client NationCode")
     private String nationCode;
 
-    @NotNull
     @PhoneValidation
     @Column(name = "phone_number")
     @ApiModelProperty(notes = "Client PhoneNumber")
@@ -47,6 +46,7 @@ public class Client {
     @JsonIgnore
     private List<Case> casesList;
 
+    public Client() {}
 
     public Client(String name, String nationCode, String phoneNumber) {
         this.name = name;
@@ -54,13 +54,6 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-//    public Case getCasee() {
-//        return casee;
-//    }
-//
-//    public void setCasee(Case casee) {
-//        this.casee = casee;
-//    }
 
     public String getName() {
         return name;
@@ -69,10 +62,12 @@ public class Client {
     public void setName(String name) {
         this.name = name;
     }
+
     @ApiModelProperty(hidden = true)
     public int getId() {
         return id;
     }
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setId(int id) {
         this.id = id;
@@ -92,9 +87,6 @@ public class Client {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Client() {
     }
 
     public List<Case> myCases() {
