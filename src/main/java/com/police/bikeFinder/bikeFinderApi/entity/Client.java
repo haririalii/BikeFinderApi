@@ -1,8 +1,11 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.police.bikeFinder.bikeFinderApi.validation.NationCodeValidation;
 import com.police.bikeFinder.bikeFinderApi.validation.PhoneValidation;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,31 +14,39 @@ import java.util.List;
 
 @Entity
 @Table(name = "client")
+@ApiModel(description = "client INfo")
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @ApiModelProperty(hidden = true ,accessMode = ApiModelProperty.AccessMode.READ_ONLY,notes = "Client ID")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int id;
 
     //    @NotNull
     @Size(min = 5, message = "Name Should Be More Than 5 Character!")
     @Column(name = "name")
+    @ApiModelProperty(notes = "Client Name")
     private String name;
 
     @NationCodeValidation
     @Column(name = "nation_code")
+    @ApiModelProperty(notes = "Client NationCode")
     private String nationCode;
 
     @NotNull
     @PhoneValidation
     @Column(name = "phone_number")
+    @ApiModelProperty(notes = "Client PhoneNumber")
     private String phoneNumber;
-//    @JsonIgnore
+
+
     @OneToMany(mappedBy = "client")
+    @ApiModelProperty(hidden =  true,accessMode = ApiModelProperty.AccessMode.READ_ONLY , notes = "Client Cases")
+    @JsonIgnore
     private List<Case> casesList;
-//    @OneToOne(mappedBy = "client")
-//    private Case casee ;
+
 
     public Client(String name, String nationCode, String phoneNumber) {
         this.name = name;
@@ -58,11 +69,11 @@ public class Client {
     public void setName(String name) {
         this.name = name;
     }
-
+    @ApiModelProperty(hidden = true)
     public int getId() {
         return id;
     }
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setId(int id) {
         this.id = id;
     }

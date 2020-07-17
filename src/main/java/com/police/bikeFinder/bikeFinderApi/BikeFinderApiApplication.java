@@ -28,6 +28,24 @@ public class BikeFinderApiApplication {
 
 	}
 
+	@Bean
+	public ComboPooledDataSource myDataSource (){
+		ComboPooledDataSource cpds = new ComboPooledDataSource();
+		try {
+			cpds.setDriverClass("com.mysql.cj.jdbc.Driver");
+			cpds.setJdbcUrl("jdbc:mysql://localhost:3306/bike_finder_api?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
+			cpds.setUser("meshkan");
+			cpds.setPassword("meshkan");
+			cpds.setInitialPoolSize(5);
+			cpds.setMinPoolSize(5);
+			cpds.setMaxPoolSize(20);
+			cpds.setMaxIdleTime(30000);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return cpds;
+	}
+
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactory (){
@@ -47,23 +65,7 @@ public class BikeFinderApiApplication {
 		return new DataSourceTransactionManager(myDataSource());
 	}
 
-	@Bean
-	public ComboPooledDataSource myDataSource (){
-		ComboPooledDataSource cpds = new ComboPooledDataSource();
-		try {
-			cpds.setDriverClass("com.mysql.cj.jdbc.Driver");
-			cpds.setJdbcUrl("jdbc:mysql://localhost:3306/bike_finder_api?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
-			cpds.setUser("meshkan");
-			cpds.setPassword("meshkan");
-			cpds.setInitialPoolSize(5);
-			cpds.setMinPoolSize(5);
-			cpds.setMaxPoolSize(20);
-			cpds.setMaxIdleTime(30000);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		return cpds;
-	}
+
 
 
 }

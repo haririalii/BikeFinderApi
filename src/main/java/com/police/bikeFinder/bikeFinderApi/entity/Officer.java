@@ -1,6 +1,9 @@
 package com.police.bikeFinder.bikeFinderApi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -10,23 +13,32 @@ import java.util.List;
 
 @Entity
 @Table(name = "officer")
+@ApiModel
 public class Officer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @ApiModelProperty(hidden = true,accessMode = ApiModelProperty.AccessMode.READ_ONLY,notes = "Client ID")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
+
     @Size(min = 5)
     @Column(name = "name")
+    @ApiModelProperty(notes = "Officer Name")
     private String name;
 
     @Column(name = "is_available")
+    @ApiModelProperty(hidden = true,notes = "Officer Status" , accessMode = ApiModelProperty.AccessMode.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean isAvailable;
 
     @Column(name = "last_mission")
+    @ApiModelProperty(hidden = true,notes = "Officer Last Mission" , accessMode = ApiModelProperty.AccessMode.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long lastMission;
 
-//    @JsonIgnore
+    @ApiModelProperty(hidden =  true,accessMode = ApiModelProperty.AccessMode.READ_ONLY , notes = "Officer Cases")
     @OneToMany( mappedBy = "officer")
     private List<Case> myCases;
 
@@ -42,7 +54,7 @@ public class Officer {
     public String getId() {
         return id;
     }
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setId(String id) {
         this.id = id;
     }
@@ -58,7 +70,7 @@ public class Officer {
     public boolean isAvailable() {
         return isAvailable;
     }
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setAvailable(boolean available) {
         isAvailable = available;
     }
@@ -66,7 +78,7 @@ public class Officer {
     public long getLastMission() {
         return lastMission;
     }
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public void setLastMission(long lastMission) {
         this.lastMission = lastMission;
     }

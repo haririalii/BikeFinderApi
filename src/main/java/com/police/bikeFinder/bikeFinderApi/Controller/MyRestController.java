@@ -7,12 +7,14 @@ import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import com.police.bikeFinder.bikeFinderApi.repository.CaseRepository;
 import com.police.bikeFinder.bikeFinderApi.service.Service;
 import com.police.bikeFinder.bikeFinderApi.service.impl.ServiceImpl;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -37,9 +39,8 @@ public class MyRestController {
     @Autowired
     private Service services ;
 
-
     @PostMapping("/case/new")
-    public void getNewCase (@Valid @RequestBody Case newCase, Errors bindingResult){
+    public void getNewCase (@Valid @RequestBody Case newCase,@ApiIgnore Errors bindingResult){
         if (bindingResult.hasErrors())
             throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
 
