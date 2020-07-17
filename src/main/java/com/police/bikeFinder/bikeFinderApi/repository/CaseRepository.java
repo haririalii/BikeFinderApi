@@ -10,4 +10,6 @@ public interface CaseRepository {
     public int delCase(int id);
     public Case getCase(int id);
     public int updateCase(Case myCase);
+    public void fillCase(Case myCase);
+    public void checkUnStartCases();
 }

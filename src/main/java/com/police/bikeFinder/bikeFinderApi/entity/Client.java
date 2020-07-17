@@ -41,7 +41,7 @@ public class Client {
     private String phoneNumber;
 
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client" )
     @ApiModelProperty(hidden =  true,accessMode = ApiModelProperty.AccessMode.READ_ONLY , notes = "Client Cases")
     @JsonIgnore
     private List<Case> casesList;

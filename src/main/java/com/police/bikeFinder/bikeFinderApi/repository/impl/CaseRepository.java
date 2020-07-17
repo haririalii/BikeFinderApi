@@ -1,16 +1,18 @@
 package com.police.bikeFinder.bikeFinderApi.repository.impl;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
+import com.police.bikeFinder.bikeFinderApi.entity.Client;
+import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
+import com.police.bikeFinder.bikeFinderApi.service.Service;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
-@Repository
+@Repository()
 public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repository.CaseRepository {
 
     @Autowired
@@ -28,10 +30,11 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
     @Override
     public int addCase(Case myCase) {
 
-        Session session = factory.getCurrentSession();
-        myCase.setStartDate(0);
-        myCase.setAlive(true);
-        session.save(myCase);
+            Session session = factory.getCurrentSession();
+            myCase.setStartDate(0);
+            myCase.setAlive(true);
+            session.save(myCase);
+
         return 0;
     }
 
@@ -75,5 +78,37 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
             session.close();
         }
         return 0;
+    }
+
+
+    @Autowired
+    private Service services;
+
+    @Override
+    public void fillCase(Case myCase) {
+        Client cc = services.checkClientAvailable(myCase.getClient());
+        if (cc != null )
+            myCase.setClient(cc);
+
+        Officer officer = null;
+        try {
+            officer = services.getBestOfficer();
+        }catch (Exception e){
+            myCase.setOfficer(null);
+            addCase(myCase);
+            throw new InvalidInputException("No officer Available!!","wait till officers get available , it will complete Automatically! ");
+        }
+        myCase.setOfficer(officer);
+        addCase(myCase);
+        officer.setAvailable(false);
+        services.updateOfficer(officer);
+    }
+
+    @Override
+    public void checkUnStartCases() {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("from Case where officer = null and isAlive = true");
+        Case myCase = (Case) query.list().get(0);
+        fillCase(myCase);
     }
 }

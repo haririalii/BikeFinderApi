@@ -1,6 +1,5 @@
 package com.police.bikeFinder.bikeFinderApi.repository.impl;
 
-import com.police.bikeFinder.bikeFinderApi.entity.Case;
 import com.police.bikeFinder.bikeFinderApi.entity.Officer;
 import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import org.hibernate.Session;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public class OfficerRepository implements com.police.bikeFinder.bikeFinderApi.repository.OfficerRepository {
 
@@ -81,12 +81,16 @@ public class OfficerRepository implements com.police.bikeFinder.bikeFinderApi.re
 
     @Override
     public Officer getBestOfficer() {
-        Session session = factory.getCurrentSession();
-        Query query = session.createQuery("select min(lastMission) from Officer where  isAvailable = 1");
-        long time =(long) query.list().get(0);
-        query = session.createQuery("from Officer where lastMission = :lms");
-        query.setParameter("lms",time);
-        Officer officer = (Officer) query.list().get(0);
+        Session session = factory.getCurrentSession() ;
+
+        Officer officer;
+
+            Query query = session.createQuery("select min(lastMission) from Officer where  isAvailable = 1");
+            long time = (long) query.list().get(0);
+            query = session.createQuery("from Officer where lastMission = :lms");
+            query.setParameter("lms",time);
+            officer = (Officer) query.list().get(0);
+
 
         return officer;
     }

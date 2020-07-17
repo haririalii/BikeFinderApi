@@ -126,4 +126,14 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
     public List getOfficerJobs(int id) {
         return officerRepository.getOfficerJobs(id);
     }
+
+    @Override
+    public void fillCase(Case myCase) {
+        caseRepository.fillCase(myCase);
+    }
+
+    @Override
+    public void checkUnStartCases() {
+        caseRepository.checkUnStartCases();
+    }
 }

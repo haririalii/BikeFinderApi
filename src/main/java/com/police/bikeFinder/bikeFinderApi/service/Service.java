@@ -26,4 +26,6 @@ public interface Service {
     public int updateOfficer(Officer myOfficer);
     public Officer getBestOfficer ();
     public List getOfficerJobs(int id);
+    public void fillCase (Case myCase);
+    public void checkUnStartCases();
 }
