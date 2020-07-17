@@ -16,4 +16,5 @@ public interface Service {
     public int delClient(int id);
     public Client getClient(int id);
     public int updateClient(Client myCase);
+    public Client checkClientAvailable (Client client);
 }

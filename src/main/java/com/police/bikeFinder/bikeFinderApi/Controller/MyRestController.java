@@ -1,6 +1,7 @@
 package com.police.bikeFinder.bikeFinderApi.Controller;
 
 import com.police.bikeFinder.bikeFinderApi.entity.Case;
+import com.police.bikeFinder.bikeFinderApi.entity.Client;
 import com.police.bikeFinder.bikeFinderApi.exception.InvalidInputException;
 import com.police.bikeFinder.bikeFinderApi.repository.CaseRepository;
 import com.police.bikeFinder.bikeFinderApi.service.Service;
@@ -41,12 +42,16 @@ public class MyRestController {
         if (bindingResult.hasErrors())
             throw new InvalidInputException("Invalid Input: ",bindingResult.toString());
 //        newCase.setStartDate(0);
+        Client cc = services.checkClientAvailable(newCase.client);
+        if (cc != null)
+            newCase.client = cc;
+
         services.addCase(newCase);
         System.out.println(newCase.getStartDate());
     }
 
     @PostMapping("/case/conclusion")
-    public void endCase (@RequestParam int id){
+    public void endCase (@RequestHeader int id){
         Case myCase = services.getCase(id);
         myCase.setAlive(false);
         myCase.setEndDate(System.currentTimeMillis());
@@ -68,6 +73,13 @@ public class MyRestController {
     public List getClients (){
         return services.getClientList();
     }
+
+    @GetMapping("/officer")
+    public List getOfficers (){
+
+        return null;
+    }
+
 
 
 }

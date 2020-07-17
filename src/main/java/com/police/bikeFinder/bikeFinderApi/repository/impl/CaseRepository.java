@@ -30,7 +30,7 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
         }else if (condition == 'f') {
             query = session.createQuery("from Case where isAlive = 0");
         }
-        session.close();
+//        session.close();
 
         return query.list();
 
@@ -62,7 +62,6 @@ public class CaseRepository implements com.police.bikeFinder.bikeFinderApi.repos
         Session session = factory.getCurrentSession();
         try {session.beginTransaction();
             session.update(myCase);
-            System.out.println(myCase.getId() + "  " + myCase.getEndDate());
             session.getTransaction().commit();
         }catch (Exception e){
             e.printStackTrace();

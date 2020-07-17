@@ -19,7 +19,7 @@ public class ClientRepository implements com.police.bikeFinder.bikeFinderApi.rep
     public List<Client> listClient() {
         Session session = factory.getCurrentSession();
         Query query = session.createQuery("from Client ") ;
-        session.close();
+//        session.close();
         return query.list();
     }
 
@@ -41,5 +41,24 @@ public class ClientRepository implements com.police.bikeFinder.bikeFinderApi.rep
     @Override
     public int updateClient(Client myCase) {
         return 0;
+    }
+
+    @Override
+    public Client checkClientAvailable(Client client) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("from Client where name = :cname and nationCode = :cnationCode and phoneNumber = :cphoneNumber");
+        query.setParameter("cname",client.getName());
+        query.setParameter("cnationCode",client.getNationCode());
+        query.setParameter("cphoneNumber",client.getPhoneNumber());
+
+
+        try {
+            Client client1 = (Client) query.list().get(0);
+            if (client1 != null)
+                return client1;
+        }catch (Exception e) {
+            return null;
+        }
+        return null;
     }
 }

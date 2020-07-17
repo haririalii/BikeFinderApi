@@ -74,4 +74,10 @@ public class ServiceImpl implements com.police.bikeFinder.bikeFinderApi.service.
     public int updateClient(Client myCase) {
         return 0;
     }
+
+    @Override
+    public Client checkClientAvailable(Client client) {
+        return clientRepository.checkClientAvailable(client);
+
+    }
 }
