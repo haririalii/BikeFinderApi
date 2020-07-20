@@ -1,4 +1,4 @@
-# bikeFinderApi
+# BikeFinderApi
 Finding Stolen Bikes For Police Department
 
 #### A RESTFUL API using Spring Boot. 
@@ -23,7 +23,7 @@ Finding Stolen Bikes For Police Department
 
 
   1. Install [MySQL]
-  2. `cd bikeFinderApi`.
+  2. `cd BikeFinderApi`.
   3. execut `create-db.sql` for create DataBase.
   4. Configure your DataBase info in `BikeFinderApiApplication.java`
   5. Run `mvn install`.
