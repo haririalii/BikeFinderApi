@@ -1,5 +1,5 @@
 # BikeFinding
-Finding Stolen Bikes For Police Department
+Finding Stolen Bikes In Police Department
 
 #### A RESTFUL API using Spring Boot. 
 
